@@ -20,8 +20,11 @@ axiosInstance.interceptors.response.use((response) => {
     if(error.response.status === 403 && !originalRequest._retry) {
         originalRequest._retry = true
 
-        const token = localStorage.getItem('refreshtoken')
-        const {data} = await axiosInstance.get('/refresh', {headers: {'Authorization' : `Bearer ${token}`}})
+        // const token = localStorage.getItem('refreshtoken')4
+        
+        const {data} = await axiosInstance.get('/refresh',{
+            withCredentials: true, // Include cookies in the request
+          })
         localStorage.setItem('token', data)
         originalRequest.headers.Authorization = `Bearer ${data}`
 

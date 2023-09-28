@@ -15,12 +15,15 @@ export default function Form() {
 
   const handleSubmit = async(e)=> {
     e.preventDefault();
-    const {status, data : {token, refreshToken}} = await axios.post(`/${formState}`, values)
-    if(status === 201) {
+    const response = await axios.post(`/${formState}`, values, {
+      withCredentials: true
+    })
+    const {token} = response.data
+    // if(status === 201) {
       localStorage.setItem('token', token)
-      localStorage.setItem('refreshtoken', refreshToken)
+      // localStorage.setItem('refreshtoken', refreshToken)
       navigate('/home')
-    }
+    // }
   }
 
   return (
